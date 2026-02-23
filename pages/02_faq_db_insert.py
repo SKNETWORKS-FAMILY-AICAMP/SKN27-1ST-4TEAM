@@ -1,16 +1,16 @@
-import sys
-import os
+
 import streamlit as st
 import pandas as pd
 from sqlalchemy import text
 
+import sys
+import os
 # 현재 파일의 위치를 기준으로 프로젝트 루트(상위 폴더)를 파이썬 경로에 추가
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common.sidemenu import display_sidebar
 #공통 사이드바 호출
 display_sidebar()
-
-
+brand_code=""
 
 @st.cache_resource
 def get_connector():
@@ -19,7 +19,7 @@ def get_connector():
 
 def insert_faq_data(file):
     """
-    현대차 FAQ CSV 데이터를 읽어 FAQ 테이블에 insert 함
+    FAQ CSV 데이터를 읽어 FAQ 테이블에 insert 함
     """
     conn = get_connector()
     
@@ -46,13 +46,13 @@ def insert_faq_data(file):
 
     success_count = 0
     fail_list = []
-
+    brand_code = file.name.split('_')[0]
     # 3. 데이터 반복 삽입
     for _, row in df.iterrows():
         try:
             with conn.session as session:
                 session.execute(query, {
-                    "brand_code": "HYUNDAI",  # 현대차 데이터이므로 고정
+                    "brand_code": brand_code, 
                     "category": row['category'],
                     "question": row['question'],
                     "answer": row['answer']
@@ -65,9 +65,9 @@ def insert_faq_data(file):
     return success_count, fail_list
 
 # --- Streamlit UI ---
-st.title("🚗 현대자동차 FAQ 데이터 업로드")
+st.title("🚗 자동차 FAQ 데이터 데이타베이스저장")
 
-uploaded_file = st.file_uploader("현대차 FAQ CSV 파일을 업로드하세요", type=['csv'])
+uploaded_file = st.file_uploader("자동차 FAQ CSV 파일을 업로드하세요", type=['csv'])
 
 if uploaded_file:
     if st.button("데이터베이스에 저장"):
@@ -86,7 +86,7 @@ if st.checkbox("저장된 데이터 미리보기"):
     conn = get_connector()
     
     # 1. 데이터 가져오기
-    existing_data = conn.query("SELECT * FROM FAQ WHERE brand_code = 'HYUNDAI' ORDER BY created_at DESC LIMIT 10")
+    existing_data = conn.query("SELECT * FROM FAQ ORDER BY created_at DESC LIMIT 10")
     
     # 2. 데이터가 있는지, 비어있지 않은지 확인
     if existing_data is not None and not existing_data.empty:

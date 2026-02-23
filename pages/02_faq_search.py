@@ -7,7 +7,10 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common.sidemenu import display_sidebar
 #공통 사이드바 호출
+st.set_page_config(page_title="FAQ DB Explorer", layout="wide")
+
 display_sidebar()
+
 # 1. DB 연결 설정 (사용자 정보에 맞게 수정)
 # 형식: mysql+pymysql://<ID>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>
 db_config = "mysql+pymysql://root:root1234@localhost:3306/examplesdb"
@@ -19,7 +22,7 @@ def run_query(query, params=None):
         return pd.read_sql(text(query), conn, params=params)
 
 def main():
-    st.set_page_config(page_title="FAQ DB Explorer", layout="wide")
+    
     st.title("🗂️ FAQ 데이터베이스 통합 검색 시스템")
 
     # 사이드바: 다양한 검색 조건 (SELECT의 WHERE/ORDER BY 절 구성)

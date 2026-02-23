@@ -6,16 +6,16 @@ import streamlit as st
 def display_sidebar():
     # 1. 페이지 설정 (가장 처음에 와야 함)
 
-    st.set_page_config(
-        page_title="4조 프로젝트",
-        layout="wide",
-        initial_sidebar_state="expanded", # 사이드바 초기 상태
-        menu_items={
-            'Get Help': None,
-            'Report a bug': None,
-            'About': None
-        }
-    )
+    # st.set_page_config(
+    #     page_title="4조 프로젝트",
+    #     layout="wide",
+    #     initial_sidebar_state="expanded", # 사이드바 초기 상태
+    #     menu_items={
+    #         'Get Help': None,
+    #         'Report a bug': None,
+    #         'About': None
+    #     }
+    # )
     # 2. 사이드바의 자동 네비게이션을 숨기는 CSS
     st.markdown("""
         <style>

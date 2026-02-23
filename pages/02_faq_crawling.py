@@ -1,3 +1,4 @@
+
 import streamlit as st
 import time
 import pandas as pd
@@ -14,7 +15,9 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common.sidemenu import display_sidebar
 #공통 사이드바 호출
+st.set_page_config(page_title=" FAQ 수집기", page_icon="🚗", layout="wide") # 넓게 보기 옵션 추가
 display_sidebar()
+
 def run_hyundai_crawler():
     # 1. Selenium 설정
     chrome_options = Options()
@@ -292,7 +295,7 @@ def run_genesis_crawler():
 # --- Streamlit UI 구성 ---
 
 
-st.set_page_config(page_title=" FAQ 수집기", page_icon="🚗", layout="wide") # 넓게 보기 옵션 추가
+
 
 st.title("🚗 FAQ 크롤러")
 st.markdown("버튼을 누르면 고객센터의 FAQ 데이터를 실시간으로 수집합니다.")
