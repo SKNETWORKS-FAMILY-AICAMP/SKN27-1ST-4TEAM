@@ -1,6 +1,7 @@
 # common.py
-import streamlit as st
 import os
+import streamlit as st
+
 
 def display_sidebar():
     # 1. 페이지 설정 (가장 처음에 와야 함)
@@ -37,9 +38,9 @@ def display_sidebar():
        
         with st.expander("📂 FAQ 페이지", expanded=True):
             # 파일 경로가 실제 파일 위치와 일치하는지 꼭 확인하세요!
-            st.page_link("pages/02_faq1.py", label="크롤링", icon="🏎️",disabled=("pages/02_faq1.py" in st.session_state.get('current_page', '')))
-            st.page_link("pages/02_faq2.py", label="데이타베이스저장", icon="💾",disabled=("pages/02_faq2.py" in st.session_state.get('current_page', '')))
-            st.page_link("pages/02_faq3.py", label="FAQ 검색", icon="🚗",disabled=("pages/02_faq3.py" in st.session_state.get('current_page', '')))
+            st.page_link("pages/02_faq_crawling.py", label="크롤링", icon="🏎️",disabled=("pages/02_faq_crawling.py" in st.session_state.get('current_page', '')))
+            st.page_link("pages/02_faq_db_insert.py", label="데이타베이스저장", icon="💾",disabled=("pages/02_faq_db_insert.py" in st.session_state.get('current_page', '')))
+            st.page_link("pages/02_faq_search.py", label="FAQ 검색", icon="🚗",disabled=("pages/02_faq_search.py" in st.session_state.get('current_page', '')))
             
         st.page_link("pages/03_parking.py", label="주차장현황", icon="🅿️",disabled=("pages/03_parking.py" in st.session_state.get('current_page', '')))
             
