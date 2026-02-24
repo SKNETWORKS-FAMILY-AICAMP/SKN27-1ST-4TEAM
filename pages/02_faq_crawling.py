@@ -15,7 +15,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common.sidemenu import display_sidebar
 #공통 사이드바 호출
-st.set_page_config(page_title=" FAQ 수집기", page_icon="🚗", layout="wide") # 넓게 보기 옵션 추가
+st.set_page_config(page_title=" FAQ 크롤링", page_icon="🚗", layout="wide") # 넓게 보기 옵션 추가
 display_sidebar()
 
 
@@ -310,8 +310,7 @@ with col1:
 with col2:
     kia_clicked = st.button("🚀 기아자동차 FAQ 크롤링 시작", use_container_width=True)
 
-with col3:
-    genesis_clicked = st.button("🚀  제네시스 FAQ 크롤링 시작", use_container_width=True)
+
     
 # --- 결과 출력 영역 ---
 #반복되는 출력 로직을 함수로 만들면 코드가 깔끔해집니다.
@@ -347,12 +346,5 @@ if kia_clicked:
             filename = f"kia_faq_{now}.csv"
             display_results(result_df, filename)
 
-if genesis_clicked:
-    with st.spinner("제네시스 데이터를 수집 중입니다..."):
-        result_df = run_genesis_crawler()
-        if not result_df.empty:
-            now = datetime.now().strftime("%Y%m%d_%H%M")
-            filename = f"genesis_faq_{now}.csv"
-            display_results(result_df, filename)
 
 #

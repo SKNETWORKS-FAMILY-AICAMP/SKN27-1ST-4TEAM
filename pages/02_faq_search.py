@@ -130,9 +130,9 @@ def display_results(df):
 
 
 def main():
-    st.set_page_config(page_title="FAQ DB Explorer", layout="wide")
+    st.set_page_config(page_title="FAQ 데이터베이스 통합 검색 시스템 ",page_icon="🚗", layout="wide")
     display_sidebar()
-    st.title("🗂️ FAQ 데이터베이스 통합 검색 시스템")
+    st.title("🚗FAQ 데이터베이스 통합 검색 시스템")
 
     # 1. 필터 UI 구성 (여기서 brand, category, keyword가 바뀔 때마다 스크립트 재실행)
     brand, category, keyword, sort_opt = display_search_filters()

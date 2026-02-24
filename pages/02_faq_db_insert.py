@@ -9,6 +9,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from common.sidemenu import display_sidebar
 #공통 사이드바 호출
+st.set_page_config(page_title=" FAQ 데이터베이스저장", page_icon="🚗", layout="wide") # 넓게 보기 옵션 추가
 display_sidebar()
 brand_code=""
 
