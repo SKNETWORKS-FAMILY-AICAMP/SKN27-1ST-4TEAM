@@ -25,9 +25,12 @@ display_sidebar()
 def run_hyundai_crawler():
     # 1. Selenium 설정
     chrome_options = Options()
-    chrome_options.add_argument('--headless')  # UI 환경에서는 headless 권장
+    chrome_options.add_argument('--headless=new') # 최신 헤드리스 모드 사용 권장
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--window-size=1920,1080')
+    chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled") # 자동화 감지 우회
 
     driver = webdriver.Chrome(options=chrome_options)
     url = "https://www.hyundai.com/kr/ko/e/customer/center/faq"
@@ -41,6 +44,7 @@ def run_hyundai_crawler():
     try:
         driver.get(url)
         time.sleep(2)
+        
         
         # 메뉴 개수 파악 (최대 9개)
         menu_range = range(1, 10)
@@ -66,6 +70,7 @@ def run_hyundai_crawler():
                     time.sleep(1)
 
                     questions = driver.find_elements(By.CLASS_NAME, 'list-content')
+
                     for question in questions:
                         q_text = question.text.strip()
                         driver.execute_script("arguments[0].click();", question)
@@ -74,11 +79,17 @@ def run_hyundai_crawler():
                         try:
                             answer = driver.find_element(By.CLASS_NAME, 'conts')
                             a_text = answer.text.replace('\n', ' ').strip()
-                            faq_list.append([menu_text, q_text, a_text])
-                            
+
+                            #faq_list.append([menu_text, q_text, a_text])
+                            faq_list.append({
+                            "Category": menu_text,
+                            "Question": q_text,
+                            "Answer": a_text
+                            })
+
                             # 실시간 수집 현황 미리보기 업데이트 (최근 5건)
                             current_df = pd.DataFrame(faq_list, columns=['Category', 'Question', 'Answer'])
-                            data_preview.dataframe(current_df.tail(5), use_container_width=True)
+                            data_preview.dataframe(current_df.tail(3), use_container_width=True)
                         except:
                             continue
             except Exception as e:
@@ -185,7 +196,7 @@ def run_kia_crawler():
                     # 다음 페이지 버튼 검색 및 클릭
                     next_page = driver.find_element(By.XPATH, f'//ul[@class="paging-list"]/li[a[text()="{current_page + 1}"]]/a')
                     driver.execute_script("arguments[0].click();", next_page)
-                    time.sleep(3)
+                    #time.sleep(3)
                 except:
                     print(f"카테고리 종료: {menu_name}")
                     break
@@ -197,104 +208,7 @@ def run_kia_crawler():
 
 def run_genesis_crawler():
     """제네시스 FAQ 데이터 수집"""
-    faq_data = []
-    
-    # Selenium 설정
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument("--headless") # 백그라운드 실행
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled") # 자동화 감지 우회
-    
-    # 1. 웹 드라이버 설정 (Mac/Linux/Windows 호환)
-    driver = webdriver.Chrome(options=chrome_options)
-    url = "https://www.genesis.com/kr/ko/customer-service/faq"
-    driver.get(url)
-    
-    # 초기 로드 대기
-    time.sleep(5)
-    
-    # 결과 저장용 리스트 (Pandas concat보다 리스트 append가 성능상 유리함)
-    faq_data = []
-    wait = WebDriverWait(driver, 5)
-    
-    # UI 영역 설정
-    progress_bar = st.progress(0)
-    status_text = st.empty()
-    data_preview = st.empty()
-
-    try:
-        # 메뉴 버튼 찾기
-        menus = driver.find_elements(By.CLASS_NAME, 'tabs__btn')
-      
-        # 메뉴 개수 파악 (최대 9개)
-        #menu_range = range(1, 10)
-        #total_menus = len(menu_range)
-        pidx = 0
-        for menu in menus:
-            # 진행률 계산 및 업데이트
-            pidx += 1
-            progress_val = pidx/len(menus)
-            progress_bar.progress(progress_val)
-            print(progress_val)
-            menu_name = menu.text.strip()
-            
-            status_text.info(f"🔍 현재 수집 중인 카테고리: **{menu_name}**")
-            # 메뉴 선택
-            driver.execute_script("arguments[0].click();", menu)
-            
-            # 메뉴 로딩 대기
-            wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'faqinner__wrap')))
-            time.sleep(1)
-
-            while True:
-                # 현재 활성화된 페이지 번호 확인
-                current_page_element = driver.find_element(By.CSS_SELECTOR, '.paging-list li.is-active a')
-                current_page = int(current_page_element.text)
-
-                # BeautifulSoup으로 본문 파싱
-                soup = BeautifulSoup(driver.page_source, 'html.parser')
-                description_divs = soup.find_all('div', class_='faqinner__wrap')
-
-                for idx, description_div in enumerate(description_divs):
-                    try:
-                        # 질문 추출 (data-link-label)
-                        question_button = driver.find_element(By.ID, f'accordion-item-{idx}-button')
-                        question=question_button.find_element(By.CSS_SELECTOR,'.cmp-accordion__title').text
-                        
-                        #question = question_button.get_attribute('data-link-label')
-                        
-                        # 답변 추출 (p 태그 결합)
-                        #p_tags = description_div.find_all('p')
-                        p_tags = description_div.select('p, li')
-                        answer_text = " ".join([p.get_text(strip=True) for p in p_tags])
-                        #print(question)
-                        faq_data.append({
-                            "Category": menu_name,
-                            "Question": question,
-                            "Answer": answer_text
-                        })
-                         # 실시간 수집 현황 미리보기 업데이트 (최근 5건)
-                        current_df = pd.DataFrame(faq_data, columns=['Category', 'Question', 'Answer'])
-                        data_preview.dataframe(current_df.tail(5), use_container_width=True)
-                    except Exception as e:
-                        print(f"항목 파싱 중 오류 발생: {e}")
-
-                try:
-                    # 다음 페이지 버튼 검색 및 클릭
-                    next_page = driver.find_element(By.XPATH, f'//ul[@class="paging-list"]/li[a[text()="{current_page + 1}"]]/a')
-                    driver.execute_script("arguments[0].click();", next_page)
-                    time.sleep(3)
-                except:
-                    print(f"카테고리 종료: {menu_name}")
-                    break
-    
-    finally:
-        driver.quit()
-
-    return pd.DataFrame(faq_data)
-    
-
+    pass
 
 # --- Streamlit UI 구성 ---
 st.title("🚗 자동차FAQ 크롤러")
@@ -305,10 +219,12 @@ col1, col2 ,col3,col4= st.columns([1,1,1,2])
 
 # 각 변수에 버튼 상태를 저장하여 클릭 후에도 결과가 유지되도록 합니다.
 with col1:
+    kia_clicked = st.button("🚀 기아자동차 FAQ 크롤링 시작", use_container_width=True)
+with col2:
     hyundai_clicked = st.button("🚀 현대자동차 FAQ 크롤링 시작", use_container_width=True)
 
-with col2:
-    kia_clicked = st.button("🚀 기아자동차 FAQ 크롤링 시작", use_container_width=True)
+
+    
 
 
     

@@ -2,7 +2,6 @@
 import streamlit as st
 import pandas as pd
 from sqlalchemy import text
-
 import sys
 import os
 # 현재 파일의 위치를 기준으로 프로젝트 루트(상위 폴더)를 파이썬 경로에 추가
