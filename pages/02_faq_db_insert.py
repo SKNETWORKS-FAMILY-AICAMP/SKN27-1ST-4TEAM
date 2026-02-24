@@ -67,7 +67,8 @@ def insert_faq_data(file):
 # --- Streamlit UI ---
 st.title("🚗 자동차 FAQ 데이터 데이타베이스저장")
 
-uploaded_file = st.file_uploader("자동차 FAQ CSV 파일을 업로드하세요", type=['csv'])
+
+uploaded_file = st.file_uploader("자동차 FAQ CSV 파일을 업로드하여 데이타베이스에 저장합니다.", type=['csv'])
 
 if uploaded_file:
     if st.button("데이터베이스에 저장"):

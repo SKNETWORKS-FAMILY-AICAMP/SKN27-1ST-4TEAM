@@ -1,135 +1,109 @@
-import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine, text
-import sys
-import os
-# 현재 파일의 위치를 기준으로 프로젝트 루트(상위 폴더)를 파이썬 경로에 추가
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from common.sidemenu import display_sidebar
-#공통 사이드바 호출
-st.set_page_config(page_title="FAQ DB Explorer", layout="wide")
-
-display_sidebar()
-
-# 1. DB 연결 설정 (사용자 정보에 맞게 수정)
-# 형식: mysql+pymysql://<ID>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>
-db_config = "mysql+pymysql://root:root1234@localhost:3306/faqdb"
-engine = create_engine(db_config)
-
+# DB 설정 (필요시 환경 변수로 관리 권장)
+DB_CONFIG = "mysql+pymysql://root:root1234@localhost:3306/faqdb"
+engine = create_engine(DB_CONFIG)
+####################################################################
 def run_query(query, params=None):
     """SQL 쿼리를 실행하고 결과를 데이터프레임으로 반환"""
     with engine.connect() as conn:
         return pd.read_sql(text(query), conn, params=params)
 
-def main():
-    
-    st.title("🗂️ FAQ 데이터베이스 통합 검색 시스템")
+def get_categories():
+    """카테고리 목록을 중복 없이 가져옴"""
+    query = "SELECT DISTINCT category FROM FAQ"
+    df = run_query(query)
+    return ["전체"] + df['category'].tolist()
 
-    # 사이드바: 다양한 검색 조건 (SELECT의 WHERE/ORDER BY 절 구성)
-    st.header("🔍 검색 및 필터 설정")
-
-    # (1) 브랜드 필터 (brand_code)
-    brand_list = ["전체", "HYUNDAI", "KIA", "GENESIS"]
-    selected_brand = st.selectbox("브랜드 선택", brand_list)
-
-    # (2) 카테고리 필터 (DB에서 실시간 select)
-    cat_query = "SELECT DISTINCT category FROM FAQ"
-    categories = ["전체"] + run_query(cat_query)['category'].tolist()
-    selected_category = st.selectbox("카테고리 선택", categories)
-
-    # (3) 키워드 검색 (Question, Answer 대상)
-    search_keyword = st.text_input("검색어 입력 (질문/답변)")
-
-    # (4) 정렬 기준 (ORDER BY)
-    sort_option = st.radio("정렬 기준", ["최신순", "오래된순", "제목순"])
-
-    # ---------------------------------------------------------
-    # 3. 동적 SELECT 쿼리 생성
-    # ---------------------------------------------------------
+def fetch_faq_data(brand="전체", category="전체", keyword="", sort_option="최신순"):
+    """필터 조건에 따른 FAQ 데이터를 조회"""
     base_query = "SELECT * FROM FAQ WHERE 1=1"
     params = {}
 
-    # 브랜드 필터 추가
-    if selected_brand != "전체":
+    if brand != "전체":
         base_query += " AND brand_code = :brand"
-        params['brand'] = selected_brand
+        params['brand'] = brand
 
-    # 카테고리 필터 추가
-    if selected_category != "전체":
+    if category != "전체":
         base_query += " AND category = :category"
-        params['category'] = selected_category
+        params['category'] = category
 
-    # 키워드 검색 추가 (LIKE 처리)
-    if search_keyword:
+    if keyword:
         base_query += " AND (question LIKE :keyword OR answer LIKE :keyword)"
-        params['keyword'] = f"%{search_keyword}%"
+        params['keyword'] = f"%{keyword}%"
 
-    # 정렬 조건 추가
-    if sort_option == "최신순":
-        base_query += " ORDER BY created_at DESC"
-    elif sort_option == "오래된순":
-        base_query += " ORDER BY created_at ASC"
-    else:
-        base_query += " ORDER BY question ASC"
+    # 정렬 로직
+    sort_dict = {
+        "최신순": "ORDER BY created_at DESC",
+        "오래된순": "ORDER BY created_at ASC",
+        "제목순": "ORDER BY question ASC"
+    }
+    base_query += f" {sort_dict.get(sort_option, 'ORDER BY created_at DESC')}"
     
-    # 쿼리 실행
+    return run_query(base_query, params)
+
+
+import sys
+import os
+
+# 프로젝트 루트 경로 설정
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from common.sidemenu import display_sidebar
+####################################################################
+def display_search_filters():
+    """사이드바 검색 필터 UI 구성"""
+    st.header("🔍 검색 및 필터 설정")
+    
+    brand = st.selectbox("브랜드 선택", ["전체", "HYUNDAI", "KIA", "GENESIS"])
+    
+    # DB에서 카테고리 실시간 호출
+    category_list = get_categories()
+    category = st.selectbox("카테고리 선택", category_list)
+    
+    keyword = st.text_input("검색어 입력 (질문/답변)")
+    sort_option = st.radio("정렬 기준", ["최신순", "오래된순", "제목순"])
+    
+    return brand, category, keyword, sort_option
+
+def display_results(df):
+    """데이터프레임 결과 출력 UI"""
+    st.subheader(f"📌 검색 결과 ({len(df)}건)")
+    
+    if df.empty:
+        st.info("조건에 맞는 데이터가 없습니다.")
+        return
+
+    st.dataframe(
+        df,
+        use_container_width=True,
+        column_config={
+            "faq_id": "🆔 ID",
+            "brand_code": "브랜드",
+            "category": "카테고리",
+            "question": "질문 내용",
+            "answer": "답변 내용",
+            "updated_at": st.column_config.DatetimeColumn("마지막 수정일", format="YYYY-MM-DD HH:mm")
+        },
+        hide_index=True
+    )    
+import streamlit as st
+import sys
+import os
+
+def main():
+    st.set_page_config(page_title="FAQ DB Explorer", layout="wide")
+    display_sidebar()
+    st.title("🗂️ FAQ 데이터베이스 통합 검색 시스템")
+
+    # 1. 필터 UI 렌더링 및 값 수집
+    brand, category, keyword, sort_opt = display_search_filters()
+
+    # 2. 데이터 조회 및 출력
     try:
-        results = run_query(base_query, params)
-        
-        # UI 출력
-        st.subheader(f"📌 검색 결과 ({len(results)}건)")
-        
-        if not results.empty:
-            # 1. 데이터프레임 출력 (인터랙티브 표)
-            st.dataframe(
-                results,
-                use_container_width=True, # 화면 너비에 맞게 확장
-                column_config={           # 컬럼 설정 (이름 변경 및 링크 등)
-                    "faq_id": "🆔 ID",
-                    "brand_code": "브랜드",
-                    "category": "카테고리",
-                    "question": "질문 내용",
-                    "answer": "답변 내용",
-                    "updated_at": st.column_config.DatetimeColumn("마지막 수정일", format="YYYY-MM-DD HH:mm")
-                },
-                hide_index=True # 왼쪽 인덱스 번호 숨기기
-            )
-            
-            # 2. (선택 사항) 만약 답변 내용이 너무 길어 표에서 보기 힘들다면 
-            # 특정 행을 선택했을 때 아래에 상세 내용을 띄워주는 기능을 추가할 수 있습니다.
-            
-        else:
-            st.info("조건에 맞는 데이터가 없습니다.")
-
+        results = fetch_faq_data(brand, category, keyword, sort_opt)
+        display_results(results)
     except Exception as e:
-        st.error(f"DB 연결 또는 쿼리 오류: {e}")
-    # # 쿼리 실행
-    # try:
-    #     results = run_query(base_query, params)
-        
-    #     # UI 출력
-    #     st.subheader(f"📌 검색 결과 ({len(results)}건)")
-        
-    #     if not results.empty:
-    #         for _, row in results.iterrows():
-    #             with st.container():
-    #                 # 카드 형태의 디자인
-    #                 col1, col2 = st.columns([1, 4])
-    #                 with col1:
-    #                     st.caption(f"🆔 ID: {row['faq_id']}")
-    #                     st.markdown(f"**`{row['brand_code']}`**")
-    #                     st.markdown(f"`{row['category']}`")
-    #                 with col2:
-    #                     with st.expander(f"❓ {row['question']}", expanded=False):
-    #                         st.write("**답변 내용:**")
-    #                         st.info(row['answer'])
-    #                         st.caption(f"마지막 수정일: {row['updated_at']}")
-    #                 st.divider()
-    #     else:
-    #         st.info("조건에 맞는 데이터가 없습니다.")
-
-    # except Exception as e:
-    #     st.error(f"DB 연결 또는 쿼리 오류: {e}")
+        st.error(f"데이터를 가져오는 중 오류가 발생했습니다: {e}")
 
 if __name__ == "__main__":
     main()
