@@ -84,7 +84,7 @@ if uploaded_file:
 # --- 저장된 데이터 확인 ---
 if st.checkbox("저장된 데이터 미리보기"):
     conn = get_connector()
-    
+    print(conn)
     # 1. 데이터 가져오기
     existing_data = conn.query("SELECT * FROM FAQ ORDER BY created_at DESC LIMIT 10")
     

@@ -13,7 +13,7 @@ display_sidebar()
 
 # 1. DB 연결 설정 (사용자 정보에 맞게 수정)
 # 형식: mysql+pymysql://<ID>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>
-db_config = "mysql+pymysql://root:root1234@localhost:3306/examplesdb"
+db_config = "mysql+pymysql://root:root1234@localhost:3306/faqdb"
 engine = create_engine(db_config)
 
 def run_query(query, params=None):
