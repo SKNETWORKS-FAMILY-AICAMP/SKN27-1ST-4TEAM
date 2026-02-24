@@ -17,6 +17,37 @@ def get_connector():
     # st.connection을 통해 DB 연결 (secrets.toml 설정 필요)
     return st.connection("faqdb", type='sql', autocommit=True)
 
+
+
+def setup_database():
+    """데이터베이스와 테이블을 처음부터 생성"""
+    # 1. DB 이름 없이 서버 자체에 연결
+    server_conn = st.connection("mysql_server", type='sql', autocommit=True)
+    
+    with server_conn.session as session:
+        # 데이터베이스 생성
+        session.execute(text("CREATE DATABASE IF NOT EXISTS faqdb;"))
+        st.success("✅터베이스 'faqdb' 확인/생성 완료")
+    
+    # 2. 생성된 faqdb에 다시 연결하여 테이블 생성
+    db_conn = st.connection("faqdb", type='sql', autocommit=True)
+    
+    with db_conn.session as session:
+        create_table_sql = """
+        CREATE TABLE IF NOT EXISTS FAQ (
+            faq_id INT AUTO_INCREMENT PRIMARY KEY,
+            brand_code VARCHAR(20) NOT NULL,
+            category VARCHAR(50),
+            question TEXT NOT NULL,
+            answer TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        );
+        """
+        session.execute(text(create_table_sql))
+        session.commit()
+        st.success("✅ FAQ 테이블 생성 완료!")
+
 def insert_faq_data(file):
     """
     FAQ CSV 데이터를 읽어 FAQ 테이블에 insert 함
@@ -65,8 +96,19 @@ def insert_faq_data(file):
     return success_count, fail_list
 
 # --- Streamlit UI ---
-st.title("🚗 자동차 FAQ 데이터 데이타베이스저장")
+st.title("🚗 FAQ 데이터 데이타베이스저장")
 
+col1,col2,col3=st.columns([8, 3, 1])
+with col1:
+  if st.button("데이터베이스&테이블 생성", use_container_width=True):
+        setup_database()
+       
+
+# ---------------------------------------------------------
+# 2. 여기서부터는 'with' 블록 밖이므로 다시 전체 화면(Full Width) 사용
+# ---------------------------------------------------------
+
+st.divider() # 구분선 추가 (선택 사항)
 
 uploaded_file = st.file_uploader("자동차 FAQ CSV 파일을 업로드하여 데이타베이스에 저장합니다.", type=['csv'])
 
