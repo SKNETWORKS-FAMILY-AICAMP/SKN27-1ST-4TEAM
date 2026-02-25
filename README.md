@@ -141,6 +141,9 @@
 
 ## 🧩 데이터베이스 설계문서: ERD
 
+<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/----.png" width="800" height="1600"/>
+<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/---.png" width="800" height="1600"/>
+<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/--.png" width="1000" height="2000"/>
 
 ---
 
