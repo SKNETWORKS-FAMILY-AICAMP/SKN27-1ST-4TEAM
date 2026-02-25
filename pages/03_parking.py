@@ -103,6 +103,8 @@ def load_parking_data():
             base_fee = float(row.get('주차기본요금', 0))
             if base_time > 0:
                 val = int((60 / base_time) * base_fee)
+                if val == 0:
+                    return "무료"
                 return f"{val:,}원"
             return "무료"
         except:
