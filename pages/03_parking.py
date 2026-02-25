@@ -223,7 +223,7 @@ if len(selected.selection.rows) > 0:
         # 금액 포맷 함수
         def format_money(val):
             try:
-                if pd.isna(val) or val == 0: return "무료💲🤑💰"
+                if pd.isna(val) or val == 0: return "무료"
                 return f"{int(float(val)):,}원"
             except: return "정보없음"
 
@@ -233,24 +233,24 @@ if len(selected.selection.rows) > 0:
         })
 
         # 주차추가단위시간 제외하고 기본/시간당/추가요금만 구성
-        base_fee_text = f"{int(data['주차기본시간'])}분 / {format_money(data['주차기본요금'])}" if data['주차기본시간'] > 0 else "무료💲🤑💰"
+        base_fee_text = f"{int(data['주차기본시간'])}분 / {format_money(data['주차기본요금'])}" if data['주차기본시간'] > 0 else "무료"
         add_fee_text = format_money(data.get('추가단위요금', 0)) # 추가단위시간 없이 금액만 표시
         #add_time = f"{int(data['추가단위시간'])}" 
         # 값이 있으면 숫자로 바꾸고, 없으면 '-' 표시
         add_time = int(data['추가단위시간']) if pd.notna(data.get('추가단위시간')) else "-"
 
         if (data['요금정보'] == "무료") or (data['요금정보'] == "유료" and str(data['주차기본요금']).strip() == "nan"):
-            base_fee_text = "무료💲🤑💰"
+            base_fee_text = "무료"
             m1, m2 = st.columns(2)
             with m1:
-                st.metric("**기본 금액**", "무료💲🤑💰" if data['요금정보'] == "무료" else base_fee_text)
+                st.metric("**기본 금액**", "무료" if data['요금정보'] == "무료" else base_fee_text)
             with m2:
                 st.write("📅 **상세 운영 시간**")
                 st.dataframe(dataF, hide_index=True, use_container_width=True)
         else:    
             m1, m2, m3, m4 = st.columns([1.5, 1, 1, 1])
             with m1:
-                st.metric("**기본 금액**", "무료💲🤑💰" if data['요금정보'] == "무료" else base_fee_text)
+                st.metric("**기본 금액**", "무료" if data['요금정보'] == "무료" else base_fee_text)
             with m2:
                 if data['요금정보'] != "무료":
                     st.metric(f"**추가 요금({add_time}분**)", add_fee_text)
