@@ -20,21 +20,24 @@ def get_connector():
 
 
 def setup_database():
-    """데이터베이스와 테이블을 처음부터 생성"""
+    """데이터베이스와 테이블을 처음부터 생성 (기존 테이블 삭제 포함)"""
     # 1. DB 이름 없이 서버 자체에 연결
     server_conn = st.connection("mysql_server", type='sql', autocommit=True)
     
     with server_conn.session as session:
         # 데이터베이스 생성
         session.execute(text("CREATE DATABASE IF NOT EXISTS faqdb;"))
-        st.success("✅터베이스 'faqdb' 확인/생성 완료")
+        st.success("✅ 데이터베이스 'faqdb' 확인/생성 완료")
     
     # 2. 생성된 faqdb에 다시 연결하여 테이블 생성
     db_conn = st.connection("faqdb", type='sql', autocommit=True)
     
     with db_conn.session as session:
+        # 기존 테이블이 존재하면 삭제
+        session.execute(text("DROP TABLE IF EXISTS FAQ;"))
+        
         create_table_sql = """
-        CREATE TABLE IF NOT EXISTS FAQ (
+        CREATE TABLE FAQ (
             faq_id INT AUTO_INCREMENT PRIMARY KEY,
             brand_code VARCHAR(20) NOT NULL,
             category VARCHAR(50),
@@ -46,7 +49,7 @@ def setup_database():
         """
         session.execute(text(create_table_sql))
         session.commit()
-        st.success("✅ FAQ 테이블 생성 완료!")
+        st.success("✅ 기존 테이블 삭제 및 FAQ 테이블 신규 생성 완료!")
 
 def insert_faq_data(file):
     """

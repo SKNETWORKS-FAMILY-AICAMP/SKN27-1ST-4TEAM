@@ -89,7 +89,7 @@ def run_hyundai_crawler():
 
                             # 실시간 수집 현황 미리보기 업데이트 (최근 5건)
                             current_df = pd.DataFrame(faq_list, columns=['Category', 'Question', 'Answer'])
-                            data_preview.dataframe(current_df.tail(3), use_container_width=True)
+                            data_preview.dataframe(current_df.tail(5), use_container_width=True)
                         except:
                             continue
             except Exception as e:
@@ -196,7 +196,7 @@ def run_kia_crawler():
                     # 다음 페이지 버튼 검색 및 클릭
                     next_page = driver.find_element(By.XPATH, f'//ul[@class="paging-list"]/li[a[text()="{current_page + 1}"]]/a')
                     driver.execute_script("arguments[0].click();", next_page)
-                    #time.sleep(3)
+                    time.sleep(2)
                 except:
                     print(f"카테고리 종료: {menu_name}")
                     break

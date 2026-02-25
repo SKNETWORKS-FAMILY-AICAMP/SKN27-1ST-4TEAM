@@ -74,7 +74,7 @@ def display_search_filters():
     
     with col1:
         # 1. 브랜드 선택 (이 값이 아래 category_list에 영향을 줍니다)
-        brand = st.selectbox("브랜드 선택", ["전체", "HYUNDAI", "KIA", "GENESIS"])
+        brand = st.selectbox("브랜드 선택", ["전체", "HYUNDAI", "KIA"])
     
     with col2:
         # 2. 선택된 브랜드를 인자로 전달하여 카테고리 목록을 가져옴
