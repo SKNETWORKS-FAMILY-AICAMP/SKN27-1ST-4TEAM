@@ -35,7 +35,7 @@ def display_sidebar():
         st.page_link("main.py", label="홈페이지", icon="🏠",disabled=("main.py" in st.session_state.get('current_page', '')))
         st.page_link("pages/01_registration.py", label="자동차등록현황", icon="🏎️",disabled=("pages/01_registration.py" in st.session_state.get('current_page', '')))
         
-        
+       
         with st.expander("📂 FAQ 페이지", expanded=True):
             # 파일 경로가 실제 파일 위치와 일치하는지 꼭 확인하세요!
             st.page_link("pages/02_faq_crawling.py", label="크롤링", icon="🏎️",disabled=("pages/02_faq_crawling.py" in st.session_state.get('current_page', '')))
