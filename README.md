@@ -146,6 +146,14 @@
 
 ## 🧩 수집 데이터: 어떤 데이터를 어떻게 수집하였는지
 
+[![주차장 데이터](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%A3%BC%EC%B0%A8%EC%9E%A5%20%EB%8D%B0%EC%9D%B4%ED%84%B0.png)](https://www.data.go.kr/data/15012896/standard.do)
+
+전국의 공영주차장 정보
+
+[![자동차 등록](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EB%93%B1%EB%A1%9D.png)](https://stat.molit.go.kr/portal/cate/statMetaView.do?hRsId=58&hFormId=5498&hSelectId=5498&hPoint=00&hAppr=1&hDivEng=&oFileName=&rFileName=&midpath=&sFormId=5498&sStart=202601&sEnd=202601&sStyleNum=2&settingRadio=xlsx)
+
+전국의 자동차 등록 정보
+
 ---
 
 ## 🧩 데이터 조회 프로그램: 화면 설계서
