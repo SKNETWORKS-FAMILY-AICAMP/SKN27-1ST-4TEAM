@@ -24,7 +24,10 @@ def run_query(query, params=None):
 #     query = "SELECT DISTINCT category FROM FAQ"
 #     df = run_query(query)
 #     return ["전체"] + df['category'].tolist()
+
+
 def get_categories(brand="전체"):
+    
     """브랜드별 카테고리 목록을 중복 없이 가져옴"""
     if brand == "전체":
         query = "SELECT DISTINCT category FROM FAQ"
