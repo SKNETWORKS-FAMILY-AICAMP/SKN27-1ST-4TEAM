@@ -26,11 +26,11 @@ def setup_database():
     
     with server_conn.session as session:
         # 데이터베이스 생성
-        session.execute(text("CREATE DATABASE IF NOT EXISTS faqdb;"))
-        st.success("✅ 데이터베이스 'faqdb' 확인/생성 완료")
+        session.execute(text("CREATE DATABASE IF NOT EXISTS project_db;"))
+        st.success("✅ 데이터베이스 'project_db' 확인/생성 완료")
     
     # 2. 생성된 faqdb에 다시 연결하여 테이블 생성
-    db_conn = st.connection("faqdb", type='sql', autocommit=True)
+    db_conn = st.connection("project_db", type='sql', autocommit=True)
     
     with db_conn.session as session:
         # 기존 테이블이 존재하면 삭제
