@@ -11,7 +11,7 @@ from common.sidemenu import display_sidebar
 
 
 # DB 설정 (필요시 환경 변수로 관리 권장)
-DB_CONFIG = "mysql+pymysql://root:root1234@localhost:3306/faqdb"
+DB_CONFIG = "mysql+pymysql://root:root1234@localhost:3306/project_db"
 engine = create_engine(DB_CONFIG)
 ####################################################################
 def run_query(query, params=None):

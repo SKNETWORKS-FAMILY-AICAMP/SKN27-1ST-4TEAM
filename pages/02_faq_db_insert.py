@@ -15,7 +15,7 @@ brand_code=""
 @st.cache_resource
 def get_connector():
     # st.connection을 통해 DB 연결 (secrets.toml 설정 필요)
-    return st.connection("faqdb", type='sql', autocommit=True)
+    return st.connection("project_db", type='sql', autocommit=True)
 
 
 
