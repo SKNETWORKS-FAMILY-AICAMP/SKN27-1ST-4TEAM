@@ -51,24 +51,24 @@
 
 
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EA%B5%AD%EC%82%B0%EC%B0%A8%20%EB%88%84%EC%A0%81%20%ED%8C%90%EB%A7%A4%EB%9F%89.jpg" width="400" height="800"/>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%ED%98%84%EB%8C%80%EA%B8%B0%EC%95%84_%EC%A0%90%EC%9C%A0%EC%9C%A8.jpg" width="600" height="900"/>
+![alt text](/image/asd.jpg)
+![alt text](/image/asd2.jpg)
 
 
 ### ✅: 전국 자동차 등록 현황과 더불어 <mark>국내 국산차 **점유율의 90%이상을 차지하고 있는 현대와 기아의 FAQ 조회** 시스템을 구축</mark>했습니다.
 
 
+![alt text](/image/asd3.png)
+![alt text](/image/asd4.png)
+![alt text](/image/asd5.png)
+![alt text](/image/asd6.png)
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EB%93%B1%EB%A1%9D%EB%8C%80%EC%88%98.png" width="500" height="1200"/>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EB%89%B4%EC%8A%A41.png" width="500" height="800"/>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EB%89%B4%EC%8A%A42.png" width="500" height="800"/>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EB%89%B4%EC%8A%A43.png" width="500" height="800"/>
 
 
 ### ✅: **<mark>빠른 차량 증가 속도 + 주차 공간 확보 부족</mark>**
 
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EA%B3%B5%EC%98%81%EC%A3%BC%EC%B0%A8%EC%9E%A5%EB%86%92%EC%9D%80%EC%9A%94%EA%B8%88.png" width="600" height="1000"/>
+![alt text](/image/asd7.png)
 
 ### ➡️ <mark>국가 차원에서 공영 주차장 확충으로 주차 문제 해결을 시도했으나 **할인 기준 및 요금이 통일되지 않아** 운전자들이 혼란</mark>스러워하는 현황입니다.
 
@@ -82,7 +82,7 @@
 
 ## 📌 프로젝트 목표 및 소개
 
-1️⃣ : <mark>**전국 자동차 등록 현황** 및 **현대 자동차와 기아의 FAQ를 조회**</mark>할 수 있는 웹사이트를 구축하고자 합니다.
+1️⃣ : <mark>**전국 자동차 등록 현황** 및 **현대와 기아의 FAQ를 조회**</mark>할 수 있는 웹사이트를 구축하고자 합니다.
 
 
 2️⃣ : 전국 공영 주차장의 위치 및 요금 데이터를 기반으로 운전자들에게 목적지 근처의 <mark>**공영주차장의 정확한 할인 및 요금 정보를 제공**</mark>하고자 합니다.
@@ -95,7 +95,7 @@
 ## 📌 프로젝트 내용
 
 1️⃣ <mark>**자동차 등록 현황</mark>**
-:
+: 전국 자동차 등록 현황과 주차장 수를 이용하여 주차장 비율 확인가능 페이지
 
 
 2️⃣ <mark>**FAQ 페이지</mark>**
@@ -110,7 +110,7 @@
 
 
 3️⃣ <mark>**주차장 현황</mark>**
-: 전국 공영 주차장 위치 선택 및 검색, 주차장 정보 조회 가능한 페이지
+: 전국 공영 주차장 장소 확인 및 검색, 주차장 정보(요금 및 운영시간 등) 조회가 가능한 페이지
 
 
 ---
@@ -131,41 +131,48 @@
 
 ## 요구사항 명세서
 
-1. 차량 등록 및 수정 기능
 
-2. 주차장 주소 검색 및 예상 요금 조회
-
-3. FAQ 제공
+| No | 요구사항             | 구현 여부 | 상세 요구 사항                                | 비고                                  |
+|----|----------------------|-----------|-----------------------------------------------|----------------------------------------|
+| 1  | 차량 등록 현황       | 0         | 전국 자동차 등록 현황 조회 가능        | -                                      |
+| 2  | 인구별 차량 통계 확인     | X         | 차량 규모 별 인구 통계 확인 기능 구현       | 기간 내 구현 불가하여 추후 추가 예정                                      |
+| 3  | 주차 요금 계산       | 0         | 예상 주차 시간 별 금액 조회 가능     | -                                      |
+| 4  | 주차장 지도 조회     | X         | 검색된 주차장의 위치를 지도로 확인 가능 | 기간 내 구현 불가하여 추후 추가 예정 |
+| 5  | FAQ 조회             | 0         | 기업 별 FAQ 조회                              | -                                      |
+| 6  | 데이터 크롤링             | 0         | 크롤링을 통해 기업 별 FAQ 데이터를 수집                              | -                                      |
+| 7  | 데이터 베이스 구현             | 0         | 크롤링한 데이터를 이용해 데이터 베이스를 구현                              | -                                      |
 
 ---
 
 ## 🧩 데이터베이스 설계문서: ERD
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/----.png" width="800" height="1600"/>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/---.png" width="800" height="1600"/>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/--.png" width="1000" height="2000"/>
+![alt text](/image/ERD.png)
 
 ---
 
 ## 🧩 수집 데이터: 어떤 데이터를 어떻게 수집하였는지
 
+**전국 공영주차장 정보**
+
 [![주차장 데이터](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%A3%BC%EC%B0%A8%EC%9E%A5%20%EB%8D%B0%EC%9D%B4%ED%84%B0.png)](https://www.data.go.kr/data/15012896/standard.do)
 
-전국의 공영주차장 정보
+
+**전국 자동차 등록 정보**
 
 [![자동차 등록](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EB%93%B1%EB%A1%9D.png)](https://stat.molit.go.kr/portal/cate/statMetaView.do?hRsId=58&hFormId=5498&hSelectId=5498&hPoint=00&hAppr=1&hDivEng=&oFileName=&rFileName=&midpath=&sFormId=5498&sStart=202601&sEnd=202601&sStyleNum=2&settingRadio=xlsx)
 
-전국의 자동차 등록 정보
+**FAQ 데이터**
+
+[![현대](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EB%93%B1%EB%A1%9D.png)](https://www.hyundai.com/kr/ko/e/customer/center/faq)
+
+[![기아](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EB%93%B1%EB%A1%9D.png)](https://www.kia.com/kr/customer-service/center/faq)
+
 
 ---
 
 ## 🧩 데이터 조회 프로그램: 화면 설계서
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%9E%90%EB%8F%99%EC%B0%A8%20%EB%93%B1%EB%A1%9D%20%ED%98%84%ED%99%A9.png" width="600" height="1200"/>
-
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%EC%A3%BC%EC%B0%A8%EC%9E%A5%20%ED%98%84%ED%99%A9.png" width="400" height="800"/>
-
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN27-1ST-4TEAM/blob/feature-README/%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80.png" width="600" height="1200"/>
+![alt text](/image/image.png)
 
 
 ---
@@ -178,27 +185,12 @@
 
 
 
-   👉
-   
-   자동차등록현황 섹션의 자동차등록현황보기 버튼을 통해 자동차등록현황으로 이동 가능
-
-
-   👉
-   
-   기업별faq조회 섹션의 크롤링/DB저장/FAQ검색 3가지 버튼을 통해 크롤링/DB저장/FAQ검색 이동 가능
-
-
-   👉
-   
-   지역별 공영주차장 섹션의 지역별 공영주차장 버튼을 통해 지역별 공영주차장으로 이동 가능
-
-
-   😸🐶
-   
-   고양이와 강아지 공영주차장에 운전 및 주차
+   > 😸🐶 고양이와 강아지 공영주차장에 운전 및 주차
 
 
 ## <mark>**자동차등록현황**</mark>
+
+
 
 ## <mark>**FAQ**</mark>
 세부적으로 나누면 **크롤링, 데이터베이스 저장 ,faq조회** 총 3가지로 나눌 수 있습니다.
@@ -207,7 +199,7 @@
 
    👉
    
-   버튼을 통해 원하는 기업의 FAQ 크롤링 작업 수행 가능(버튼)
+   버튼을 통해 원하는 기업의 FAQ 크롤링 작업 수행 가능
 
   
    👉
@@ -217,8 +209,8 @@
   
    👉
    
-   완료되면, 결과를 요약해서 보여주고 CSV 파일로 다운로드(버튼)할 수 있음
-    
+   완료되면, 결과를 요약해서 보여주고 CSV 파일로 다운로드할 수 있음
+   
  	
 ###   **데이터베이스 저장 화면**(먼저 도커가 실행 중인지 확인)
     
@@ -250,28 +242,30 @@
 ### **위치 선택 및 검색**
    👉
    
-   대분류(지역선택)->소분류(시/군/구/동)->상세주소(주차장명or 지역명?)
+   대분류(지역선택)->소분류(시/군/구/동)->상세주소(지역명)
    
    
    👉
    
    검색 후 원하는 주차장 선택
 
-### **주차장 정보 조회**
+### **주차장 상세 정보 조회**
 
    👉
    
-   해당 주차장의 주차장명, 도로명 주소, 상세정보(요금 정보, 할인 정보) 조회, 운영시간, 주차 수 등 조회 가능
-
-
+   검색 결과에 있는 데이터 클릭 시 해당 주차장의 상세 정보 확인 가능
+   
+   > 무료 주차장과 유료 주차장의 상세 정보를 달리함
+   
+   👉 
+   
+   무료 주차장 선택 시 주차 요금(무료), 운영 시간 조회 가능
+   
    👉
    
-   무료 주차장의 체크박스 클릭-> 상세정보로 요금 및 할인 정보 x, 상세 운영 시간(공휴일 등) 조회 가능
-   
-   
-   👉
-   
-   유료 주차장의 체크박스 클릭-> 상세정보로 상세 요금 및 할인 정보, 예상 시간에 따른 요금 계산기(시간: 최대 24시간/ 차 종류: 승용차, 경차, 친황경차/ 추가할인헤택: 장애인, 국가유공자, 다자녀) 조회 가능
+   유료 주차장 선택 시 요금 정보, 추가 시간 별 요금 정보, 운영 시간 조회 가능
+   예상 주차 시간에 따른 요금 계산 기능 구현
+   (예상 주차 시간, 차량 종류, 할인 혜택 선택 후 예상 금액 조회 가능) 
    
    최대 이용 요금이 정해져있는 경우, 최대 이용 요금 초과된 시간으로 요금 조회하면 최대 이용 요금으로 조회
    
