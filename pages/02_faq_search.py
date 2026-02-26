@@ -11,7 +11,7 @@ from common.sidemenu import display_sidebar
 
 
 # DB 설정 (필요시 환경 변수로 관리 권장)
-DB_CONFIG = "mysql+pymysql://root:root1234@localhost:3306/faqdb"
+DB_CONFIG = "mysql+pymysql://root:root1234@localhost:3306/project_db"
 engine = create_engine(DB_CONFIG)
 ####################################################################
 def run_query(query, params=None):
@@ -24,7 +24,10 @@ def run_query(query, params=None):
 #     query = "SELECT DISTINCT category FROM FAQ"
 #     df = run_query(query)
 #     return ["전체"] + df['category'].tolist()
+
+
 def get_categories(brand="전체"):
+    
     """브랜드별 카테고리 목록을 중복 없이 가져옴"""
     if brand == "전체":
         query = "SELECT DISTINCT category FROM FAQ"
