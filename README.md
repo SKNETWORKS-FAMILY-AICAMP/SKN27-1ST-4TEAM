@@ -146,7 +146,7 @@
 
 ## 🧩 데이터베이스 설계문서: ERD
 
-![alt text](/image/ERD.png)
+![alt text](/image/ERD1.png)
 
 ---
 
