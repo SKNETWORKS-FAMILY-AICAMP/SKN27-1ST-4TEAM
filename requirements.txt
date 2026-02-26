@@ -138,3 +138,4 @@ websocket-client==1.8.0
 widgetsnbextension==4.0.13
 wsproto==1.2.0
 streamlit-keyup
+plotly==6.5.2
